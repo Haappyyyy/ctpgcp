@@ -59,7 +59,23 @@ Merci et au revoir.
 
 On commence logiquement par créér le dépot github disponible à cette adresse : https://github.com/Haappyyyy/ctpgcp
 
-# Création d'un CI CD 
+# Création Service Account (SA)
+
+gcloud iam service-accounts create my-service-account \
+    --description="Service Account pour CI/CD" \
+    --display-name="ci-cd-sa"
+
+# Autorisations 
+
+## Permissions
+
+Le compte sebastien.wachter.ext@univ-lille.fr doit pouvoir consulter uniquement mon projet complet.
+On va donc lui donner les droits Lecteur d'objets Storage (voir captures)
+
+On doit également autoriser le SA cicd-swa@notes-on-cloud-swa.iam.gserviceaccount.com à pouvoir écrire sur le bucket 
+On va donc lui donner les droits Créateur d'objets Storage (voir captures)
+
+
 
 ## Création d'un CI CD
 
@@ -109,4 +125,24 @@ jobs:
           --allow-unauthenticated
 ```
 
-Assurez-vous de définir les secrets `GCP_SA_KEY`, `GCP_PROJECT_ID`, `ARTIFACT_REPOSITORY`, `IMAGE_NAME`, et `SERVICE_NAME` dans les paramètres de votre dépôt GitHub.
+Je définis les secrets `GCP_SA_KEY`, `GCP_PROJECT_ID`, `ARTIFACT_REPOSITORY`, `IMAGE_NAME`, et `SERVICE_NAME` dans les paramètres de mon dépôt GitHub.
+
+
+# Création d'alertes 
+
+On veut créer une alerte si le budget dépasse 50$. 
+
+On se rend dans le menu Facturation -> Budgets et Alertes -> Créer un budget 
+
+Ensuite on choisit un nom puis le montant, c'est à dire 50$
+
+# Stocker sur le bucket le fichier Dockerfile 
+
+On utilise la commande : 
+
+gsutil cp Dockerfile gs:/bucket-arthur-delobel-ctp
+
+# Déploiement d'un cloud run 
+
+
+
